@@ -1,33 +1,27 @@
 #include <iostream>
 #include <queue>
-#include <vector>
 using namespace std;
+
+priority_queue<int> q;
+
 int main() {
-    ios_base::sync_with_stdio(false);
-    cin.tie(NULL);
+	cin.tie(0)->sync_with_stdio(false);
+	int N; cin >> N;
 
-    int n;
-    cin >> n;
+	for (int i = 0; i < N; i++) {
+		int M; cin >> M;
 
-    priority_queue<int, vector<int>, greater<int>> min_heap;
+		if (M == 0) {
+			if (!q.empty()) {
+				cout << q.top() * -1 << '\n';
+				q.pop();
+			}
 
-    for (int i = 0; i < n; i++) {
-        int x;
-        cin >> x;
+			else cout << "0\n";
+		}
 
-        if (x == 0) {
-            if (min_heap.empty()) {
-                cout << 0 << "\n";
-            }
-            else {
-                cout << min_heap.top() << "\n";
-                min_heap.pop();
-            }
-        }
-        else {
-            min_heap.push(x);
-        }
-    }
-
-    return 0;
+		else {
+			q.push(M * -1);
+		}
+	}
 }
