@@ -1,33 +1,39 @@
-#include <iostream>
-#include <vector>
-#include <algorithm>
+#include <bits/stdc++.h>
 using namespace std;
+using ll = long long;
 
 int main() {
-	ios::sync_with_stdio(false);
-	cin.tie(NULL);
-	cout.tie(NULL);
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
 
-	int N;
-	cin >> N;
-	vector<pair<int, int>> A(N);
+    int N;
+    if (!(cin >> N)) return 0;
 
-	for (int i = 0; i < N; i++) {
-		cin >> A[i].second;
-		cin >> A[i].first;
+    vector<pair<ll,ll>> meetings; 
+    meetings.reserve(N); //reserve로 공간 미리 확보
+    for (int i = 0; i < N; ++i) {
+        ll s, e;
+        cin >> s >> e;
+        meetings.emplace_back(e, s);
+    }
 
-	}
+    sort(meetings.begin(), meetings.end(), [](const pair<ll,ll>& a, const pair<ll,ll>& b) {
+        if (a.first != b.first) return a.first < b.first;
+        return a.second < b.second;
+    });
 
-	sort(A.begin(), A.end());
+    ll current_end = -1; 
+    int count = 0;
 
-	int count = 0;
-	int end = -1;
+    for (const auto& p : meetings) {
+        ll end = p.first;
+        ll start = p.second;
+        if (start >= current_end) {
+            ++count;
+            current_end = end;
+        }
+    }
 
-	for (int i = 0; i < N; i++) {
-		if (A[i].second >= end) {
-			end = A[i].first;
-			count++;
-		}
-	}
-	cout << count << "\n";
+    cout << count << '\n';
+    return 0;
 }
